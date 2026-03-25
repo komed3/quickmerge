@@ -33,6 +33,10 @@ export class Accessor {
         return { parent: cur, key: lastKey, value: cur?.[ lastKey ] };
     }
 
+    public compiledPath ( path: string | CompiledPath ) : CompiledPath {
+        return this.path.normalize( path );
+    }
+
     public has < O = any > ( obj: O, path: string | CompiledPath ) : boolean {
         const tokens = this.normalize( path );
         let cur: any = obj;
@@ -43,6 +47,18 @@ export class Accessor {
         }
 
         return true;
+    }
+
+    public get < O = any, V = any > ( obj: O, path: string | CompiledPath ) : V | undefined {
+        const tokens = this.normalize( path );
+        let cur: any = obj;
+
+        for ( let i = 0; i < tokens.length; i++ ) {
+            if ( cur == null ) return undefined;
+            cur = cur[ tokens[ i ] ];
+        }
+
+        return cur;
     }
 
 }
