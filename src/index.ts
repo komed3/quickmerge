@@ -23,7 +23,7 @@ export * from './path';
  * @param {MergeOptions} options - Configuration options for the QuickMerge instance.
  * @returns {QuickMerge} A new instance of QuickMerge.
  */
-export const factory = ( options?: MergeOptions ) => ( {
+export const factory = ( options?: MergeOptions ) => Object.freeze( {
     accessor: new Accessor( options?.pathOptions ),
     merger: new Merger( options ),
     path: new Path( options?.pathOptions )
