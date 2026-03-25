@@ -1,7 +1,7 @@
 /**
- * QuickMerge is a fast and flexible object merging library.
+ * DeepMerge is a fast and flexible object merging library.
  * 
- * Use the factory function to create a new instance of QuickMerge or
+ * Use the factory function to create a new instance of DeepMerge or
  * import the individual classes to create your own instances.
  * 
  * @author Paul Köhler
@@ -18,10 +18,10 @@ export * from './path';
 
 
 /**
- * Creates a new instance of QuickMerge.
+ * Creates a new instance of DeepMerge.
  * 
- * @param {MergeOptions} options - Configuration options for the QuickMerge instance.
- * @returns {QuickMerge} A new instance of QuickMerge.
+ * @param {MergeOptions} options - Configuration options for the DeepMerge instance.
+ * @returns {DeepMerge} A new instance of DeepMerge.
  */
 export const factory = ( options?: MergeOptions ) => Object.freeze( {
     accessor: new Accessor( options?.pathOptions ),
