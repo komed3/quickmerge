@@ -1,4 +1,4 @@
-import { CompiledPath, Path, PathLike, PathOptions, PathToken } from './path';
+import { Path, PathLike, PathOptions, PathToken } from './path';
 
 export class Accessor {
 
@@ -42,10 +42,6 @@ export class Accessor {
         return { parent: cur, key: lastKey, value: cur?.[ lastKey ] };
     }
 
-    public compiledPath ( path: PathLike ) : CompiledPath {
-        return this.path.normalize( path );
-    }
-
     public has < O = any > ( obj: O, path: PathLike ) : boolean {
         try { this.test( obj, path ); return true }
         catch { return false }
@@ -69,6 +65,26 @@ export class Accessor {
     public update< O = any > ( obj: O, path: PathLike, fn: ( v: any ) => any ) : void {
         const res = this.walk( obj, path, true );
         if ( res ) res.parent[ res.key ] = fn( res.value );
+    }
+
+    public static has < O = any > ( obj: O, path: PathLike ) : boolean {
+        return defaultAccessor.has( obj, path );
+    }
+
+    public static get < O = any, V = any > ( obj: O, path: PathLike ) : V | undefined {
+        return defaultAccessor.get( obj, path );
+    }
+
+    public static set < O = any, V = any > ( obj: O, path: PathLike, value: V ) : void {
+        defaultAccessor.set( obj, path, value );
+    }
+
+    public static delete < O = any > ( obj: O, path: PathLike ) : void {
+        defaultAccessor.delete( obj, path );
+    }
+
+    public static update < O = any > ( obj: O, path: PathLike, fn: ( v: any ) => any ) : void {
+        defaultAccessor.update( obj, path, fn );
     }
 
 }
