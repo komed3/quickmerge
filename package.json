@@ -45,7 +45,8 @@
   "jsdelivr": "dist/index.umd.min.js",
   "unpkg": "dist/index.umd.min.js",
   "scripts": {
-    "build": "rollup -c && tsc --emitDeclarationOnly"
+    "build": "rollup -c && tsc --emitDeclarationOnly",
+    "test": "node tests/access.js && node tests/merge.js && node tests/path.js"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^29.0.2",
