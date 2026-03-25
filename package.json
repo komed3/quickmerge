@@ -8,7 +8,7 @@
     "email": "webmaster@komed3.de",
     "url": "https://komed3.de"
   },
-  "homepage": "https://github.com/komed3/quickmerge",
+  "homepage": "https://github.com/komed3/deepmerge",
   "keywords": [
     "merge",
     "object",
@@ -21,10 +21,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/komed3/quickmerge.git"
+    "url": "git+https://github.com/komed3/deepmerge.git"
   },
   "bugs": {
-    "url": "https://github.com/komed3/quickmerge/issues"
+    "url": "https://github.com/komed3/deepmerge/issues"
   },
   "funding": {
     "type": "ko-fi",
