@@ -77,4 +77,8 @@ export class Path {
         this.cache?.clear();
     }
 
+    public get size () : number {
+        return this.cache?.size ?? 0;
+    }
+
 }
