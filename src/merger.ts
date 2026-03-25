@@ -55,4 +55,46 @@ export class Merger {
         return key === '__proto__' || key === 'constructor' || key === 'prototype';
     }
 
+    private mergeInto ( target: any, source: any ) : void {
+        if ( source == null ) return;
+        const stack: [ any, any ][] = [ [ target, source ] ];
+
+        while ( stack.length ) {
+            const [ t, s ] = stack.pop()!;
+
+            for ( const key in s ) {
+                if ( this.isUnsafeKey( key ) ) continue;
+
+                const sv = s[ key ], tv = t[ key ];
+
+                // undefined handling
+                if ( sv === undefined && ! this.mergeUndefined ) continue;
+                // protect
+                if ( this.protect && key in t ) continue;
+
+                // arrays
+                if ( Array.isArray( sv ) ) {
+                    if ( Array.isArray( tv ) ) t[ key ] = this.arrayFn( tv, sv );
+                    else t[ key ] = this.arrayFn( [], sv );
+                    continue;
+                }
+
+                // objects (deep)
+                if ( this.deep && sv && typeof sv === 'object' ) {
+                    if ( tv && typeof tv === 'object' ) stack.push( [ tv, sv ] );
+                    else {
+                        const next = Object.create( null );
+                        t[ key ] = next;
+                        stack.push( [ next, sv ] );
+                    }
+
+                    continue;
+                }
+
+                // primitive
+                t[ key ] = sv;
+            }
+        }
+    }
+
 }
