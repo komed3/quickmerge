@@ -10,8 +10,8 @@ export const enum ArrayMode {
 export type ArrayFn = ( target: any[], source: any[] ) => any[];
 
 export interface MergeOptions {
-    deep?: boolean;
     protect?: boolean;
+    deep?: boolean;
     mergeUndefined?: boolean;
     arrayMode?: ArrayMode | ArrayFn;
     pathOptions?: PathOptions;
@@ -19,16 +19,16 @@ export interface MergeOptions {
 
 export class Merger {
 
-    private readonly deep: boolean;
     private readonly protect: boolean;
+    private readonly deep: boolean;
     private readonly mergeUndefined: boolean;
 
     private readonly arrayFn: ArrayFn;
     private readonly path: Path;
 
     constructor ( options: MergeOptions ) {
-        this.deep = options.deep !== false;
         this.protect = !! options.protect;
+        this.deep = options.deep !== false;
         this.mergeUndefined = !! options.mergeUndefined;
 
         this.arrayFn = this.compileArrayFn( options.arrayMode );
