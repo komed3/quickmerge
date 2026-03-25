@@ -15,13 +15,10 @@ export interface MergeOptions {
     protect?: boolean;
     deep?: boolean;
     mergeUndefined?: boolean;
-
+    strict?: boolean;
+    createObject?: () => any;
     arrayMode?: ArrayMode | ArrayFn;
     valueFn?: ValueFn;
-
-    strict?: boolean;
-    createObjFn?: () => any;
-
     pathOptions?: PathOptions;
 }
 
@@ -30,10 +27,11 @@ export class Merger {
     private readonly protect: boolean;
     private readonly deep: boolean;
     private readonly mergeUndefined: boolean;
+
     private readonly strict: boolean;
+    private readonly createObject: () => any;
 
     private readonly valueFn?: ValueFn;
-    private readonly createObjFn: () => any;
     private readonly arrayFn: ArrayFn;
 
     private readonly path: Path;
@@ -42,10 +40,11 @@ export class Merger {
         this.protect = !! options.protect;
         this.deep = options.deep !== false;
         this.mergeUndefined = !! options.mergeUndefined;
+
         this.strict = !! options.strict;
+        this.createObject = options.createObject ?? ( () => Object.create( null ) );
 
         this.valueFn = options.valueFn;
-        this.createObjFn = options.createObjFn ?? ( () => Object.create( null ) );
         this.arrayFn = this.compileArrayFn( options.arrayMode );
 
         this.path = new Path ( options.pathOptions );
@@ -106,7 +105,7 @@ export class Merger {
                     else {
                         if ( this.strict ) continue;
 
-                        const next = this.createObjFn();
+                        const next = this.createObject();
                         t[ key ] = next;
                         stack.push( [ next, sv ] );
                     }
@@ -139,7 +138,7 @@ export class Merger {
             if ( next == null ) {
                 if ( this.strict ) return target;
 
-                next = typeof tokens[ i + 1 ] === 'number' ? [] : this.createObjFn();
+                next = typeof tokens[ i + 1 ] === 'number' ? [] : this.createObject();
                 cur[ key ] = next;
             }
 
