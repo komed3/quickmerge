@@ -1,4 +1,4 @@
-import { CompiledPath, Path, PathOptions, PathToken } from './path';
+import { CompiledPath, Path, PathLike, PathOptions, PathToken } from './path';
 
 export class Accessor {
 
@@ -8,11 +8,20 @@ export class Accessor {
         this.path = new Path ( options );
     }
 
-    private normalize ( path: string | CompiledPath ) : PathToken[] {
-        return this.path.normalize( path ).tokens;
+    private test ( obj: any, path: PathLike ) : any {
+        const tokens = this.path.normalize( path ).tokens;
+        let cur: any = obj;
+
+        for ( let i = 0; i < tokens.length; i++ ) {
+            if ( cur == null ) throw Error ();
+            cur = cur[ tokens[ i ] ];
+        }
+
+        return cur;
     }
 
-    private walk ( obj: any, tokens: PathToken[], create: boolean ) : { parent: any; key: PathToken; value: any } | undefined {
+    private walk ( obj: any, path: PathLike, create: boolean ) : { parent: any, key: PathToken, value: any } | undefined {
+        const tokens = this.path.normalize( path ).tokens;
         let cur = obj;
 
         for ( let i = 0; i < tokens.length - 1; i++ ) {
@@ -33,32 +42,33 @@ export class Accessor {
         return { parent: cur, key: lastKey, value: cur?.[ lastKey ] };
     }
 
-    public compiledPath ( path: string | CompiledPath ) : CompiledPath {
+    public compiledPath ( path: PathLike ) : CompiledPath {
         return this.path.normalize( path );
     }
 
-    public has < O = any > ( obj: O, path: string | CompiledPath ) : boolean {
-        const tokens = this.normalize( path );
-        let cur: any = obj;
-
-        for ( let i = 0; i < tokens.length; i++ ) {
-            if ( cur == null || !( tokens[ i ] in cur ) ) return false;
-            cur = cur[ tokens[ i ] ];
-        }
-
-        return true;
+    public has < O = any > ( obj: O, path: PathLike ) : boolean {
+        try { this.test( obj, path ); return true }
+        catch { return false }
     }
 
-    public get < O = any, V = any > ( obj: O, path: string | CompiledPath ) : V | undefined {
-        const tokens = this.normalize( path );
-        let cur: any = obj;
+    public get < O = any, V = any > ( obj: O, path: PathLike ) : V | undefined {
+        try { return this.test( obj, path ) }
+        catch { /** silence */ }
+    }
 
-        for ( let i = 0; i < tokens.length; i++ ) {
-            if ( cur == null ) return undefined;
-            cur = cur[ tokens[ i ] ];
-        }
+    public set < O = any, V = any > ( obj: O, path: PathLike, value: V ) : void {
+        const res = this.walk( obj, path, true );
+        if ( res ) res.parent[ res.key ] = value;
+    }
 
-        return cur;
+    public delete< O = any > ( obj: O, path: PathLike ) : void {
+        const res = this.walk( obj, path, false );
+        if ( res && res.parent != null ) delete res.parent[ res.key ];
+    }
+
+    public update< O = any > ( obj: O, path: PathLike, fn: ( v: any ) => any ) : void {
+        const res = this.walk( obj, path, true );
+        if ( res ) res.parent[ res.key ] = fn( res.value );
     }
 
 }
