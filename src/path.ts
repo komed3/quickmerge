@@ -1,7 +1,7 @@
 export type PathToken = string | number;
 
 export interface CompiledPath {
-    tokens: PathToken[];
+    readonly tokens: PathToken[];
 }
 
 export interface PathOptions {
@@ -20,7 +20,7 @@ export class Path {
     }
 
     public compile ( path: string ) : CompiledPath {
-        if ( ! path ) return { tokens: [] };
+        if ( ! path ) return Object.freeze( { tokens: [] } );
 
         if ( this.cache ) {
             const cached = this.cache.get( path );
@@ -44,14 +44,12 @@ export class Path {
                 if ( key ) { tokens.push( key ), key = '' }
 
                 i++; // skip '['
-                let start = i;
+                const start = i;
 
                 // find closing bracket
                 while ( i < path.length && path.charCodeAt( i ) !== 93 ) i++;
 
-                let inner: any = path.slice( start, i );
-
-                // number index
+                const inner: any = path.slice( start, i );
                 const num = inner >>> 0;
                 if ( String( num ) === inner ) tokens.push( num );
                 else tokens.push( inner );
@@ -65,7 +63,7 @@ export class Path {
         }
 
         if ( key ) tokens.push( key );
-        const compiled = { tokens };
+        const compiled = Object.freeze( { tokens } );
 
         if ( this.cache ) {
             if ( this.cache.size >= this.maxCacheSize ) this.cache.clear();
