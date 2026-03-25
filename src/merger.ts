@@ -20,7 +20,7 @@ export interface MergeOptions {
     valueFn?: ValueFn;
 
     strict?: boolean;
-    createObject?: () => any;
+    createObjFn?: () => any;
 
     pathOptions?: PathOptions;
 }
@@ -30,16 +30,24 @@ export class Merger {
     private readonly protect: boolean;
     private readonly deep: boolean;
     private readonly mergeUndefined: boolean;
+    private readonly strict: boolean;
 
+    private readonly valueFn?: ValueFn;
+    private readonly createObjFn: () => any;
     private readonly arrayFn: ArrayFn;
+
     private readonly path: Path;
 
     constructor ( options: MergeOptions ) {
         this.protect = !! options.protect;
         this.deep = options.deep !== false;
         this.mergeUndefined = !! options.mergeUndefined;
+        this.strict = !! options.strict;
 
+        this.valueFn = options.valueFn;
+        this.createObjFn = options.createObjFn ?? ( () => Object.create( null ) );
         this.arrayFn = this.compileArrayFn( options.arrayMode );
+
         this.path = new Path ( options.pathOptions );
     }
 
