@@ -8,16 +8,8 @@ export class Accessor {
         this.path = new Path ( options );
     }
 
-    private test ( obj: any, path: PathLike ) : any {
-        const tokens = this.path.normalize( path ).tokens;
-        let cur: any = obj;
-
-        for ( let i = 0; i < tokens.length; i++ ) {
-            if ( cur == null ) throw Error ();
-            cur = cur[ tokens[ i ] ];
-        }
-
-        return cur;
+    private isUnsafeKey ( key: any ) : boolean {
+        return key === '__proto__' || key === 'constructor' || key === 'prototype';
     }
 
     private walk ( obj: any, path: PathLike, create: boolean ) : { parent: any, key: PathToken, value: any } | undefined {
@@ -26,6 +18,9 @@ export class Accessor {
 
         for ( let i = 0; i < tokens.length - 1; i++ ) {
             const key = tokens[ i ];
+
+            if ( this.isUnsafeKey( key ) ) return;
+
             let next = cur?.[ key ];
 
             if ( next == null ) {
@@ -43,13 +38,27 @@ export class Accessor {
     }
 
     public has < O = any > ( obj: O, path: PathLike ) : boolean {
-        try { this.test( obj, path ); return true }
-        catch { return false }
+        const tokens = this.path.normalize( path ).tokens;
+        let cur: any = obj;
+
+        for ( let i = 0; i < tokens.length; i++ ) {
+            if ( cur == null ) return false;
+            cur = cur[ tokens[ i ] ];
+        }
+
+        return true;
     }
 
     public get < O = any, V = any > ( obj: O, path: PathLike ) : V | undefined {
-        try { return this.test( obj, path ) }
-        catch { /** silence */ }
+        const tokens = this.path.normalize( path ).tokens;
+        let cur: any = obj;
+
+        for ( let i = 0; i < tokens.length; i++ ) {
+            if ( cur == null ) return undefined;
+            cur = cur[ tokens[ i ] ];
+        }
+
+        return cur;
     }
 
     public set < O = any, V = any > ( obj: O, path: PathLike, value: V ) : void {
