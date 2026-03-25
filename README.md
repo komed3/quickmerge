@@ -1,42 +1,42 @@
-# QuickMerge
+# @komed3/deepmerge
 
-A fast and efficient object merging and manipulation library for Node.js and the browser, optimized for performance and flexibility.
+A fast and efficient deep object merging and manipulation library for Node.js and the browser, optimized for performance and flexibility.
 
-`quickmerge` provides a high-performance `Merger` with a non-recursive stack-based implementation and a versatile `Accessor` for safe, deep object manipulation using dot and bracket notation. It includes a built-in path compiler with caching to ensure maximum efficiency during repeated operations.
+`deepmerge` provides a high-performance `Merger` with a non-recursive stack-based implementation and a versatile `Accessor` for safe, deep object manipulation using dot and bracket notation. It includes a built-in path compiler with caching to ensure maximum efficiency during repeated operations.
 
 ## Installation
 
 Install via npm:
 
 ```bash
-npm install quickmerge
+npm install @komed3/deepmerge
 ```
 
 ## Import Methods
 
-`quickmerge` supports multiple module formats for seamless integration across different environments.
+`deepmerge` supports multiple module formats for seamless integration across different environments.
 
 ### ESM (ECMAScript Modules)
 For modern projects using `import`:
 
 ```ts
-import { factory, Merger, Accessor } from 'quickmerge';
+import { factory, Merger, Accessor } from '@komed3/deepmerge';
 ```
 
 ### CommonJS
 For Node.js projects using `require`:
 
 ```js
-const { factory, Merger, Accessor } = require( 'quickmerge' );
+const { factory, Merger, Accessor } = require( '@komed3/deepmerge' );
 ```
 
 ### UMD (Browser)
 Include the script in your HTML:
 
 ```html
-<script src="node_modules/quickmerge/dist/index.umd.min.js"></script>
+<script src="node_modules/@komed3/deepmerge/dist/index.umd.min.js"></script>
 <script>
-    const { factory } = quickmerge;
+    const { factory } = deepmerge;
 </script>
 ```
 
@@ -45,7 +45,7 @@ Include the script in your HTML:
 The easiest way to get started is using the `factory()` function to create a new instance with a shared configuration.
 
 ```ts
-import { factory } from 'quickmerge';
+import { factory } from '@komed3/deepmerge';
 
 // initialize with default options
 const qm = factory();
@@ -69,7 +69,7 @@ console.log( target.tags ); // [ 'LEAD' ]
 Instead of using the factory function, you can also create instances of `Merger`, `Accessor`, and `Path` directly:
 
 ```ts
-import { Merger, Accessor, Path } from 'quickmerge';
+import { Merger, Accessor, Path } from '@komed3/deepmerge';
 
 const merger = new Merger( { ... } );
 const accessor = new Accessor( { ... } );
@@ -185,7 +185,7 @@ Control how arrays are handled during a merge using the built-in `ArrayMode` enu
 - `Unique`: Combines both arrays and removes duplicates.
 
 ```ts
-import { factory, ArrayMode } from 'quickmerge';
+import { factory, ArrayMode } from '@komed3/deepmerge';
 
 const qm = factory( { arrayMode: ArrayMode.Unique } );
 const target = { ids: [ 1, 2 ] };
