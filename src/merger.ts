@@ -88,7 +88,7 @@ export class Merger {
      * 
      * @param {MergeOptions} options - Configuration options for the Merger.
      */
-    constructor ( options: MergeOptions ) {
+    constructor ( options: MergeOptions = {} ) {
         this.protect = !! options.protect;
         this.deep = options.deep !== false;
         this.mergeUndefined = !! options.mergeUndefined;
