@@ -87,6 +87,12 @@ export class Merger {
                 // protect
                 if ( this.protect && key in t ) continue;
 
+                // custom value handler
+                if ( this.valueFn ) {
+                    const res = this.valueFn( key, tv, sv );
+                    if ( res !== undefined ) { t[ key ] = res; continue; }
+                }
+
                 // arrays
                 if ( Array.isArray( sv ) ) {
                     if ( Array.isArray( tv ) ) t[ key ] = this.arrayFn( tv, sv );
@@ -98,7 +104,9 @@ export class Merger {
                 if ( this.deep && sv && typeof sv === 'object' ) {
                     if ( tv && typeof tv === 'object' ) stack.push( [ tv, sv ] );
                     else {
-                        const next = Object.create( null );
+                        if ( this.strict ) continue;
+
+                        const next = this.createObjFn();
                         t[ key ] = next;
                         stack.push( [ next, sv ] );
                     }
@@ -129,7 +137,9 @@ export class Merger {
             let next = cur[ key ];
 
             if ( next == null ) {
-                next = typeof tokens[ i + 1 ] === 'number' ? [] : Object.create( null );
+                if ( this.strict ) return target;
+
+                next = typeof tokens[ i + 1 ] === 'number' ? [] : this.createObjFn();
                 cur[ key ] = next;
             }
 
