@@ -53,10 +53,7 @@ export class Accessor {
 
         for ( let i = 0; i < tokens.length - 1; i++ ) {
             const key = tokens[ i ];
-
             if ( this.isUnsafeKey( key ) ) return;
-
-            // @ts-ignore
             let next = cur?.[ key ];
 
             if ( next == null ) {

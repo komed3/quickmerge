@@ -151,8 +151,6 @@ export class Merger {
 
             for ( const key in s ) {
                 if ( this.isUnsafeKey( key ) ) continue;
-                
-                // @ts-ignore
                 const sv = s[ key ], tv = t[ key ];
 
                 // Handle undefined values
@@ -221,9 +219,7 @@ export class Merger {
 
         for ( let i = 0; i < tokens.length; i++ ) {
             const key = tokens[ i ];
-
             if ( this.isUnsafeKey( key ) ) return target;
-
             let next = cur[ key ];
 
             if ( next == null ) {
