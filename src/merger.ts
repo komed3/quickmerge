@@ -2,9 +2,9 @@ import { Path, PathOptions } from './path';
 
 export const enum ArrayMode {
     Replace = 'replace',
+    Keep = 'keep',
     Concat = 'concat',
-    Unique = 'unique',
-    Keep = 'keep'
+    Unique = 'unique'
 }
 
 export type ArrayFn = ( target: any[], source: any[] ) => any[];
@@ -35,8 +35,20 @@ export class Merger {
         this.path = new Path ( options.pathOptions );
     }
 
-    private mergeArrayFn ( mode?: ArrayMode | ArrayFn ) : ArrayFn {
+    private compileArrayFn ( mode?: ArrayMode | ArrayFn ) : ArrayFn {
+        switch ( mode ?? ArrayMode.Replace ) {
+            case ArrayMode.Replace: return ( _a, b ) => b;
+            case ArrayMode.Keep: return ( a, _b ) => a;
+            case ArrayMode.Concat: return ( a, b ) => a.concat( b );
+            case ArrayMode.Unique: return ( a, b ) => {
+                const set = new Set( a );
+                for ( let i = 0; i < b.length; i++ ) set.add( b[ i ] );
+                return Array.from( set );
+            };
+        }
 
+        if ( typeof mode === 'function' ) return mode;
+        else throw new Error ( `Invalid array merge mode: ${ mode }` );
     }
 
 }
