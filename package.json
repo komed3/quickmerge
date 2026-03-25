@@ -1,4 +1,49 @@
 {
+  "name": "quickmerge",
+  "description": "Fast and efficient object merging and manipulation library",
+  "license": "MIT",
+  "version": "1.0.0",
+  "author": {
+    "name": "komed3 (Paul Köhler)",
+    "email": "webmaster@komed3.de",
+    "url": "https://komed3.de"
+  },
+  "homepage": "https://github.com/komed3/quickmerge",
+  "keywords": [
+    "merge",
+    "object",
+    "manipulation",
+    "path",
+    "accessor",
+    "merger",
+    "deep-merge",
+    "deep-manipulation"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/komed3/quickmerge.git"
+  },
+  "bugs": {
+    "url": "https://github.com/komed3/quickmerge/issues"
+  },
+  "funding": {
+    "type": "ko-fi",
+    "url": "https://ko-fi.com/komed3"
+  },
+  "files": [
+    "dist",
+    "README",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "types": "dist/index.d.ts",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "browser": "dist/index.umd.min.js",
+  "jsdelivr": "dist/index.umd.min.js",
+  "unpkg": "dist/index.umd.min.js",
   "scripts": {
     "build": "rollup -c && tsc --emitDeclarationOnly"
   },
