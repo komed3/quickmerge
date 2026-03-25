@@ -113,10 +113,12 @@ const { merger, accessor, path } = factory( { deep: true, protect: false } );
   Whether to allow `undefined` values from sources to overwrite target values.
 - `strict` (boolean, default: `false`)  
   If true, new objects/arrays will not be created when paths are missing.
-- `arrayMode` (`'replace' | 'keep' | 'concat' | 'unique'`, default: `'replace'`)  
-  Strategy for merging arrays.
+- `createObject` (function, default: `() => Object.create( null )`)  
+  A factory function for creating new objects when missing structures are encountered during a deep merge.
+- `arrayMode` (`'replace' | 'keep' | 'concat' | 'unique'` | function, default: `'replace'`)  
+  Strategy for merging arrays or a custom merge function `( target: any[], source: any[] ) => any[]`.
 - `valueFn` (function)  
-  A custom function to handle specific value merging logic.
+  A custom function to handle specific value merging logic: `( key, targetVal, sourceVal ) => any`.
 - `pathOptions` (`PathOptions`)  
   Configuration for the internal path compiler.
 
@@ -126,9 +128,46 @@ const { merger, accessor, path } = factory( { deep: true, protect: false } );
 - `maxCacheSize` (number, default: `1000`)  
   The maximum number of paths to keep in the cache.
 
+## Customization
+
+### Custom Object Creation
+Use `createObject` to control how new objects are instantiated, for example to use plain objects instead of null-prototype objects:
+
+```ts
+const qm = factory( {
+  createObject: () => ( {} )
+} );
+```
+
+### Custom Array Merging
+Pass a function to `arrayMode` to implement your own logic, such as merging by a specific property:
+
+```ts
+const qm = factory( {
+  arrayMode: ( target, source ) => {
+    // custom merge logic
+    return [ ...target, ...source ].filter( v => v.active );
+  }
+} );
+```
+
+### Custom Value Merging
+Use `valueFn` to define custom logic for merging individual values:
+
+```ts
+const qm = factory( {
+  valueFn: ( key, targetVal, sourceVal ) => {
+    if ( key === 'count' ) {
+      return targetVal + sourceVal;
+    }
+    return sourceVal;
+  }
+} );
+```
+
 ## Array Modes
 
-Control how arrays are handled during a merge using `ArrayMode`:
+Control how arrays are handled during a merge using the built-in `ArrayMode` enums:
 
 - `Replace`: Overwrites the target array with the source array (default).
 - `Keep`: Retains the target array and ignores the source.
