@@ -1,6 +1,6 @@
 {
-  "name": "quickmerge",
-  "description": "Fast and efficient object merging and manipulation library",
+  "name": "@komed3/deepmerge",
+  "description": "Fast and efficient deep object merging and manipulation library",
   "license": "MIT",
   "version": "1.0.0",
   "author": {
