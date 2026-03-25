@@ -66,6 +66,16 @@ console.log( target.user.id ); // 123
 console.log( target.tags ); // [ 'LEAD' ]
 ```
 
+Instead of using the factory function, you can also create instances of `Merger`, `Accessor`, and `Path` directly:
+
+```ts
+import { Merger, Accessor, Path } from 'quickmerge';
+
+const merger = new Merger( { ... } );
+const accessor = new Accessor( { ... } );
+const path = new Path( { ... } );
+```
+
 ## API Reference
 
 ### factory( options? )
