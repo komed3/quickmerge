@@ -37,18 +37,22 @@ export class Merger {
 
     private compileArrayFn ( mode?: ArrayMode | ArrayFn ) : ArrayFn {
         switch ( mode ?? ArrayMode.Replace ) {
-            case ArrayMode.Replace: return ( _a, b ) => b;
-            case ArrayMode.Keep: return ( a, _b ) => a;
-            case ArrayMode.Concat: return ( a, b ) => a.concat( b );
-            case ArrayMode.Unique: return ( a, b ) => {
-                const set = new Set( a );
-                for ( let i = 0; i < b.length; i++ ) set.add( b[ i ] );
+            case ArrayMode.Replace: return ( _, s ) => s;
+            case ArrayMode.Keep: return ( t, _ ) => t;
+            case ArrayMode.Concat: return ( t, s ) => t.concat( s );
+            case ArrayMode.Unique: return ( t, s ) => {
+                const set = new Set( t );
+                for ( let i = 0; i < s.length; i++ ) set.add( s[ i ] );
                 return Array.from( set );
             };
         }
 
         if ( typeof mode === 'function' ) return mode;
         else throw new Error ( `Invalid array merge mode: ${ mode }` );
+    }
+
+    private isUnsafeKey ( key: any ) : boolean {
+        return key === '__proto__' || key === 'constructor' || key === 'prototype';
     }
 
 }
