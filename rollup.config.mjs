@@ -30,11 +30,11 @@ export default {
     }, {
         file: 'dist/bundle.umd.js',
         format: 'umd',
-        name: 'QuickMerge'
+        name: 'deepmerge'
     }, {
         file: 'dist/bundle.umd.min.js',
         format: 'umd',
-        name: 'QuickMerge',
+        name: 'deepmerge',
         plugins: [ terser() ]
     } ]
 };
