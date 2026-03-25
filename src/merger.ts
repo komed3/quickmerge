@@ -9,11 +9,19 @@ export const enum ArrayMode {
 
 export type ArrayFn = ( target: any[], source: any[] ) => any[];
 
+export type ValueFn = ( key: PropertyKey, targetVal: any, sourceVal: any ) => any;
+
 export interface MergeOptions {
     protect?: boolean;
     deep?: boolean;
     mergeUndefined?: boolean;
+
     arrayMode?: ArrayMode | ArrayFn;
+    valueFn?: ValueFn;
+
+    strict?: boolean;
+    createObject?: () => any;
+
     pathOptions?: PathOptions;
 }
 
