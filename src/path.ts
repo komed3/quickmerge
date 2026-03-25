@@ -4,6 +4,8 @@ export interface CompiledPath {
     readonly tokens: PathToken[];
 }
 
+export type PathLike = string | CompiledPath;
+
 export interface PathOptions {
     cache?: boolean;
     maxCacheSize?: number;
@@ -77,7 +79,7 @@ export class Path {
         return path && Array.isArray( path.tokens );
     }
 
-    public normalize ( path: string | CompiledPath ) : CompiledPath {
+    public normalize ( path: PathLike ) : CompiledPath {
         return typeof path === 'string' ? this.compile( path ) : path;
     }
 
