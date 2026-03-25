@@ -73,6 +73,14 @@ export class Path {
         return compiled;
     }
 
+    public isCompiled ( path: any ) : path is CompiledPath {
+        return path && Array.isArray( path.tokens );
+    }
+
+    public normalize ( path: string | CompiledPath ) : CompiledPath {
+        return typeof path === 'string' ? this.compile( path ) : path;
+    }
+
     public clearCache () : void {
         this.cache?.clear();
     }
