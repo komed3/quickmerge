@@ -1,4 +1,4 @@
-import { Path, PathOptions } from './path';
+import { Path, PathLike, PathOptions } from './path';
 
 export const enum ArrayMode {
     Replace = 'replace',
@@ -98,6 +98,29 @@ export class Merger {
 
     public merge < T > ( target: T, ...sources: any[] ) : T {
         for ( let i = 0; i < sources.length; i++ ) this.mergeInto( target, sources[ i ] );
+        return target;
+    }
+
+    public mergeAt < T > ( target: T, path: PathLike, ...sources: any[] ) : T {
+        const tokens = this.path.normalize( path ).tokens;
+        let cur: any = target;
+
+        for ( let i = 0; i < tokens.length; i++ ) {
+            const key = tokens[ i ];
+
+            if ( this.isUnsafeKey( key ) ) return target;
+
+            let next = cur[ key ];
+
+            if ( next == null ) {
+                next = typeof tokens[ i + 1 ] === 'number' ? [] : Object.create( null );
+                cur[ key ] = next;
+            }
+
+            cur = next;
+        }
+
+        for ( let i = 0; i < sources.length; i++ ) this.mergeInto( cur, sources[ i ] );
         return target;
     }
 
