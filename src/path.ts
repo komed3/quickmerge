@@ -75,4 +75,8 @@ export class Path {
         return compiled;
     }
 
+    public clearCache () : void {
+        this.cache?.clear();
+    }
+
 }
