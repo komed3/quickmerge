@@ -64,7 +64,6 @@ export class Merger {
 
             for ( const key in s ) {
                 if ( this.isUnsafeKey( key ) ) continue;
-
                 const sv = s[ key ], tv = t[ key ];
 
                 // undefined handling
@@ -95,6 +94,11 @@ export class Merger {
                 t[ key ] = sv;
             }
         }
+    }
+
+    public merge < T > ( target: T, ...sources: any[] ) : T {
+        for ( let i = 0; i < sources.length; i++ ) this.mergeInto( target, sources[ i ] );
+        return target;
     }
 
 }
