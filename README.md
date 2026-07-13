@@ -36,7 +36,7 @@ Include the script in your HTML:
 ```html
 <script src="node_modules/@komed3/deepmerge/dist/index.umd.min.js"></script>
 <script>
-    const { factory } = deepmerge;
+  const { factory } = deepmerge;
 </script>
 ```
 
@@ -197,5 +197,5 @@ console.log( target.ids ); // [ 1, 2, 3 ]
 
 ----
 
-Copyright (c) 2026 Paul Köhler (komed3). All rights reserved.  
-Released under the MIT license. See LICENSE file in the project root for details.
+Copyright (c) 2026 [Paul Köhler](https://komed3.de) (komed3). All rights reserved.  
+Released under the MIT license. See [LICENSE](./LICENSE) file in the project root for details.
