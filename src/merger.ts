@@ -22,7 +22,7 @@ export const enum ArrayMode {
   Keep = 'keep',
   /** Concatenate the source array to the target array. */
   Concat = 'concat',
-  /** Merge arrays by reference, keeping unique elements. */
+  /** Reference-based array merging. */
   Reference = 'reference',
   /** Merge unique elements from both arrays. */
   Unique = 'unique'

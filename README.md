@@ -183,7 +183,7 @@ Control how arrays are handled during a merge using the built-in `ArrayMode` enu
 - `Keep`: Retains the target array and ignores the source.
 - `Concat`: Appends source elements to the target array.
 - `Unique`: Combines both arrays and removes duplicates.
-- `Reference`: Combines both arrays and removes duplicates by reference (keep objects).
+- `Reference`: Reference-based array merging (process objects by reference).
 
 ```ts
 import { factory, ArrayMode } from '@komed3/deepmerge';
