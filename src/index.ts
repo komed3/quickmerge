@@ -24,7 +24,7 @@ export * from './path';
  * @returns {DeepMerge} A new instance of DeepMerge.
  */
 export const factory = ( options?: MergeOptions ) => Object.freeze( {
-    accessor: new Accessor( options?.pathOptions ),
-    merger: new Merger( options ),
-    path: new Path( options?.pathOptions )
+  accessor: new Accessor( options?.pathOptions ),
+  merger: new Merger( options ),
+  path: new Path( options?.pathOptions )
 } );
