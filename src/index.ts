@@ -15,8 +15,11 @@ import type { CompiledPath, PathLike, PathOptions, PathToken } from './path';
 import { Path } from './path';
 
 
-/** Exports the types and interfaces used in DeepMerge. */
-export { ArrayFn, ArrayMode, CompiledPath, PathLike, PathOptions, PathToken, ValueFn };
+/** Exports the types, interfaces, and classes used in DeepMerge. */
+export {
+  Accessor, ArrayFn, ArrayMode, CompiledPath, Merger,
+  Path, PathLike, PathOptions, PathToken, ValueFn
+};
 
 
 /**
