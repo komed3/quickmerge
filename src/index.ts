@@ -9,12 +9,14 @@
  */
 
 import { Accessor } from './accessor';
-import { Merger, type MergeOptions } from './merger';
+import type { ArrayFn, MergeOptions, ValueFn } from './merger';
+import { ArrayMode, Merger } from './merger';
+import type { CompiledPath, PathLike, PathOptions, PathToken } from './path';
 import { Path } from './path';
 
-export * from './accessor';
-export * from './merger';
-export * from './path';
+
+/** Exports the types and interfaces used in DeepMerge. */
+export { ArrayFn, ArrayMode, CompiledPath, PathLike, PathOptions, PathToken, ValueFn };
 
 
 /**
@@ -28,3 +30,7 @@ export const factory = ( options?: MergeOptions ) => Object.freeze( {
   merger: new Merger( options ),
   path: new Path( options?.pathOptions )
 } );
+
+
+/** Exports the main DeepMerge object. */
+export const DeepMerge = { Accessor, Merger, Path, factory } as const;
