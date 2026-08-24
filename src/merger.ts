@@ -18,6 +18,10 @@ import { Path, PathLike, PathOptions } from './path';
 export const enum ArrayMode {
   /** Replace the target array with the source array (default). */
   Replace = 'replace',
+  /** Replace the target array with the source array only if the source is non-empty. */
+  ReplaceRight = 'replace-right',
+  /** Replace the target array with the source array only if the target is empty. */
+  ReplaceLeft = 'replace-left',
   /** Keep the target array and ignore the source array. */
   Keep = 'keep',
   /** Concatenate the source array to the target array. */
@@ -114,6 +118,8 @@ export class Merger {
   private compileArrayFn ( mode?: ArrayMode | ArrayFn ) : ArrayFn {
     switch ( mode ?? ArrayMode.Replace ) {
       case ArrayMode.Replace: return ( _, s ) => s;
+      case ArrayMode.ReplaceRight: return ( t, s ) => s.length ? s : t;
+      case ArrayMode.ReplaceLeft: return ( t, s ) => t.length ? t : s;
       case ArrayMode.Keep: return ( t, _ ) => t;
       case ArrayMode.Concat: return ( t, s ) => t.concat( s );
       case ArrayMode.Reference: return ( t, s ) => {
