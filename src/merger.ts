@@ -122,11 +122,13 @@ export class Merger {
       case ArrayMode.ReplaceLeft: return ( t, s ) => t.length ? t : s;
       case ArrayMode.Keep: return ( t, _ ) => t;
       case ArrayMode.Concat: return ( t, s ) => t.concat( s );
+
       case ArrayMode.Reference: return ( t, s ) => {
         const set = new Set( t );
         for ( let i = 0; i < s.length; i++ ) set.add( s[ i ] );
         return Array.from( set );
       };
+
       case ArrayMode.Unique: return ( t, s ) => {
         const map = new Map(), add = ( array: any[] ) => {
           for ( let i = 0; i < array.length; i++ ) {
