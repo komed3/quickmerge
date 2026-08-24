@@ -119,17 +119,18 @@ const { merger, accessor, path } = factory( { deep: true, protect: false } );
 ## Options
 
 ### MergeOptions
-- `deep` (boolean, default: `true`)  
+
+- `deep` (`boolean`, default: `true`)  
   Whether to perform deep merging of nested objects.
-- `protect` (boolean, default: `false`)  
+- `protect` (`boolean`, default: `false`)  
   If true, existing properties in the target are not overwritten.
-- `mergeUndefined` (boolean, default: `false`)  
+- `mergeUndefined` (`boolean`, default: `false`)  
   Whether to allow `undefined` values from sources to overwrite target values.
-- `strict` (boolean, default: `false`)  
+- `strict` (`boolean`, default: `false`)  
   If true, new objects/arrays will not be created when paths are missing.
-- `createObject` (function, default: `() => Object.create( null )`)  
+- `createObject` (`function`, default: `() => Object.create( null )`)  
   A factory function for creating new objects when missing structures are encountered during a deep merge.
-- `arrayMode` (`'replace' | 'keep' | 'concat' | 'unique'` | function, default: `'replace'`)  
+- `arrayMode` (`ArrayMode | function`, default: `'replace'`)  
   Strategy for merging arrays or a custom merge function `( target: any[], source: any[] ) => any[]`.
 - `valueFn` (function)  
   A custom function to handle specific value merging logic: `( key, targetVal, sourceVal ) => any`.
@@ -137,27 +138,30 @@ const { merger, accessor, path } = factory( { deep: true, protect: false } );
   Configuration for the internal path compiler.
 
 ### PathOptions
-- `cache` (boolean, default: `true`)  
+
+- `cache` (`boolean`, default: `true`)  
   Enable or disable caching of compiled path strings.
-- `maxCacheSize` (number, default: `1000`)  
+- `maxCacheSize` (`number`, default: `1000`)  
   The maximum number of paths to keep in the cache.
 
 ## Customization
 
 ### Custom Object Creation
+
 Use `createObject` to control how new objects are instantiated, for example to use plain objects instead of null-prototype objects:
 
 ```ts
-const qm = factory( {
+const deepmerge = factory( {
   createObject: () => ( {} )
 } );
 ```
 
 ### Custom Array Merging
+
 Pass a function to `arrayMode` to implement your own logic, such as merging by a specific property:
 
 ```ts
-const qm = factory( {
+const deepmerge = factory( {
   arrayMode: ( target, source ) => {
     // custom merge logic
     return [ ...target, ...source ].filter( v => v.active );
@@ -166,14 +170,13 @@ const qm = factory( {
 ```
 
 ### Custom Value Merging
+
 Use `valueFn` to define custom logic for merging individual values:
 
 ```ts
-const qm = factory( {
+const deepmerge = factory( {
   valueFn: ( key, targetVal, sourceVal ) => {
-    if ( key === 'count' ) {
-      return targetVal + sourceVal;
-    }
+    if ( key === 'count' ) return targetVal + sourceVal;
     return sourceVal;
   }
 } );
