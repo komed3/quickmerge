@@ -51,19 +51,19 @@ The easiest way to get started is using the `factory()` function to create a new
 import { factory } from '@komed3/deepmerge';
 
 // initialize with default options
-const qm = factory();
+const deepmerge = factory();
 
 const target = { user: { name: 'Max' } };
 const source = { user: { role: 'admin' }, tags: [ 'lead' ] };
 
 // deep merge objects
-qm.merger.merge( target, source );
+deepmerge.merger.merge( target, source );
 console.log( target ); // { user: { name: 'Max', role: 'admin' }, tags: [ 'lead' ] }
 
 // safe property access using dot/bracket notation
-const name = qm.accessor.get( target, 'user.name' ); // 'Max'
-qm.accessor.set( target, 'user.id', 123 );
-qm.accessor.update( target, 'tags[0]', v => v.toUpperCase() );
+const name = deepmerge.accessor.get( target, 'user.name' ); // 'Max'
+deepmerge.accessor.set( target, 'user.id', 123 );
+deepmerge.accessor.update( target, 'tags[0]', v => v.toUpperCase() );
 
 console.log( target.user.id ); // 123
 console.log( target.tags ); // [ 'LEAD' ]
@@ -81,7 +81,8 @@ const path = new Path( { ... } );
 
 ## API Reference
 
-### factory( options? )
+### Factory Method
+
 Creates an object containing pre-configured instances of `Merger`, `Accessor`, and `Path`.
 
 ```ts
