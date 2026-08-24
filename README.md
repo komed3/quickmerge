@@ -17,6 +17,7 @@ npm install @komed3/deepmerge
 `deepmerge` supports multiple module formats for seamless integration across different environments.
 
 ### ESM (ECMAScript Modules)
+
 For modern projects using `import`:
 
 ```ts
@@ -24,6 +25,7 @@ import { factory, Merger, Accessor } from '@komed3/deepmerge';
 ```
 
 ### CommonJS
+
 For Node.js projects using `require`:
 
 ```js
@@ -31,6 +33,7 @@ const { factory, Merger, Accessor } = require( '@komed3/deepmerge' );
 ```
 
 ### UMD (Browser)
+
 Include the script in your HTML:
 
 ```html
