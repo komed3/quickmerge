@@ -1,8 +1,8 @@
 # @komed3/deepmerge
 
-A fast and efficient deep object merging and manipulation library for Node.js and the browser, optimized for performance and flexibility.
+A fast and flexible deep object merging library for Node.js and the browser.
 
-`deepmerge` provides a high-performance `Merger` with a non-recursive stack-based implementation and a versatile `Accessor` for safe, deep object manipulation using dot and bracket notation. It includes a built-in path compiler with caching to ensure maximum efficiency during repeated operations.
+`deepmerge` provides a high-performance `Merger` for deep object merging with configurable value and array handling, including replacement, preservation, concatenation, reference-based, and unique array modes. It also provides an `Accessor` for safe object manipulation using dot and bracket notation, with cached path compilation for repeated operations.
 
 ## Installation
 
