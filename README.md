@@ -187,22 +187,24 @@ const deepmerge = factory( {
 Control how arrays are handled during a merge using the built-in `ArrayMode` enums:
 
 - `Replace`: Overwrites the target array with the source array (default).
+- `ReplaceRight`: Replaces the target array with the source only if the source is non-empty.
+- `ReplaceLeft`: Replaces the target array with the source only if the target is empty.
 - `Keep`: Retains the target array and ignores the source.
 - `Concat`: Appends source elements to the target array.
-- `Unique`: Combines both arrays and removes duplicates.
 - `Reference`: Reference-based array merging (process objects by reference).
+- `Unique`: Combines both arrays and removes duplicates.
 
 ```ts
 import { factory, ArrayMode } from '@komed3/deepmerge';
 
-const qm = factory( { arrayMode: ArrayMode.Unique } );
+const deepmerge = factory( { arrayMode: ArrayMode.Unique } );
 const target = { ids: [ 1, 2 ] };
-qm.merger.merge( target, { ids: [ 2, 3 ] } );
+deepmerge.merger.merge( target, { ids: [ 2, 3 ] } );
 
 console.log( target.ids ); // [ 1, 2, 3 ]
 ```
 
-----
+## License
 
 Copyright (c) 2026 [Paul Köhler](https://komed3.de) (komed3). All rights reserved.  
 Released under the MIT license. See [LICENSE](./LICENSE) file in the project root for details.
